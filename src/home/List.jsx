@@ -85,7 +85,7 @@ export const List = () => {
             <div className="d-flex align-items-center gap-2 justify-content-between my-3">
                 <NewItemInput addItem={addItem} setNewItem={setNewItem} newItem={newItem} />
                 <div>
-                    <i className="fa-solid fa-users" tabindex="0" data-bs-toggle="tooltip" title={item.users}></i>
+                    <i className="fa-solid fa-users" tabIndex="0" data-bs-toggle="tooltip" title={item.users}></i>
                     <span>{item.users.length}</span>
                 </div>
             </div>

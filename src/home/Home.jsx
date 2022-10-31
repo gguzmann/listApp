@@ -64,11 +64,11 @@ export const Home = () => {
   return (
     <div className="container p-5">
       <div className="d-flex justify-content-between">
-        <h3>Bienvenido {user.displayName || user.email}</h3>
+        <h3>{user.displayName || user.email}</h3>
         <div className="d-flex gap-3">
 
           <button type="button" className="btn btn-outline-secondary position-relative">
-          <i className="fa-regular fa-envelope"></i>
+            <i className="fa-regular fa-envelope"></i>
             <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
               <span className="visually-hidden">New alerts</span>
             </span>
@@ -80,17 +80,20 @@ export const Home = () => {
       <NewListInput handleCreateList={handleCreateList} />
       <div className="list-group mt-3">
         <h3>Listas</h3>
-        {
-          listas.length < 1 ?
-            (
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status"></div>
-              </div>
-            ) :
-            listas.map((item, index) =>
-              <MenuList key={index} item={item} />
-            )
-        }
+        <ul className="list-group">
+
+          {
+            listas.length < 1 ?
+              (
+                <div className="d-flex justify-content-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
+              ) :
+              listas.map((item, index) =>
+                <MenuList key={index} item={item} />
+              )
+          }
+        </ul>
       </div>
     </div>
   )
