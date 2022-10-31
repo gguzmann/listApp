@@ -10,6 +10,10 @@ export const Login = () => {
     password: ''
   })
 
+  // const { user: user2, logout } = useAuth()
+  // console.log(user2)
+
+
   const [error, setError] = useState()
 
   const navigate = useNavigate()

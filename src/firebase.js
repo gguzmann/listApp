@@ -2,6 +2,7 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'
+import { getFirestore } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -15,25 +16,27 @@ import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyDhjvhVAwnQQ29__SM1prFdWYGY-adMD0A",
-
-    authDomain: "listapp-4c442.firebaseapp.com",
-
-    projectId: "listapp-4c442",
-
-    storageBucket: "listapp-4c442.appspot.com",
-
-    messagingSenderId: "569443207301",
-
-    appId: "1:569443207301:web:b3e58b5c305c3e51aa41ec",
-
-    measurementId: "G-BEM5GWLGGV"
-
-};
+    apiKey: "AIzaSyDifYJnzrMnxiyOStLDCnnAJzEI_0yb5V0",
+  
+    authDomain: "list-app-f2303.firebaseapp.com",
+  
+    projectId: "list-app-f2303",
+  
+    storageBucket: "list-app-f2303.appspot.com",
+  
+    messagingSenderId: "487137252932",
+  
+    appId: "1:487137252932:web:6aaa6cb1c89045cff58e11",
+  
+    measurementId: "G-YCJSD8X8JM"
+  
+  };
+  
 
 
 // Initialize Firebase
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth()
+export const db = getFirestore(app)
 // const analytics = getAnalytics(app);
