@@ -14,13 +14,15 @@ export const MenuList = ({ item }) => {
         <div className="list-group-item list-group-item-action d-flex justify-content-between">
             <span onClick={() => navigate('/list/' + item.uid, { state: { item } })} className="w-100" type="button">{item.name}</span>
             <div className='d-flex align-items-center gap-3'>
-                <button className='btn' onClick={handleShow}>
+                
+                <span className='d-flex align-items-center'><i className="fa-solid fa-users" tabIndex="0" data-bs-toggle="tooltip" title={item.users}></i> {item.users.length}</span>
+                <button className='btn btn-secondary' onClick={handleShow}>
                     <i className="fa-regular fa-envelope"></i>
                 </button>
                 <span className="badge bg-primary rounded-pill">{item.items.length} </span>
             </div>
 
-            <InviteModal setShow={setShow} show={show}/>
+            <InviteModal setShow={setShow} show={show} idList={item.uid} />
         </div>
     )
 }

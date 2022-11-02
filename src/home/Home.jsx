@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom"
 import { useAuth } from "../context/authContext"
 import { db } from "../firebase";
+import { InvitacionesContainer } from "./InvitacionesContainer";
 import { MenuList } from "./MenuList";
 import { NewListInput } from "./NewListInput";
 
 export const Home = () => {
 
   const [listas, setListas] = useState([])
-
+  const [invitaciones, setInvitaciones] = useState([])
   const { user, logout } = useAuth([])
   // if (!user) return (<Navigate to="/login" />)
 
@@ -17,7 +18,24 @@ export const Home = () => {
   useEffect(() => {
     console.log('render')
     cargarListas()
+    cargarInvitaciones()
   }, [])
+
+  const cargarInvitaciones = async () => {
+    const collectionInv = collection(db, "invitaciones")
+    const q = query(collectionInv, where("to", "==", user.email))
+    const queryInv = await getDocs(q)
+    const invitacionesList = []
+    queryInv.forEach(x => {
+      let obj = {...x.data(), id: x.id}
+      console.log(obj)
+      console.log(x.id)
+      invitacionesList.push(obj)
+    })
+    console.log(invitacionesList.length)
+    setInvitaciones(invitacionesList)
+    console.log(invitaciones)
+  }
 
   // CARGAR LISTAS POR USUARIO
   const cargarListas = async () => {
@@ -39,6 +57,7 @@ export const Home = () => {
 
   // CREAR NUEVA LISTA
   const handleCreateList = async (listName) => {
+    if (listName == '') return false
     try {
       const collectionRef = collection(db, "listas")
       const docRef = doc(collectionRef)
@@ -55,7 +74,6 @@ export const Home = () => {
       console.error("Error adding document: ", e);
     }
 
-
   }
 
   const handleLogout = async e => {
@@ -65,15 +83,9 @@ export const Home = () => {
     <div className="container p-5">
       <div className="d-flex justify-content-between">
         <h3>{user.displayName || user.email}</h3>
-        <div className="d-flex gap-3">
-
-          <button type="button" className="btn btn-outline-secondary position-relative">
-            <i className="fa-regular fa-envelope"></i>
-            <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-              <span className="visually-hidden">New alerts</span>
-            </span>
-          </button>
-          <button className="btn btn-danger" onClick={handleLogout}>Cerrar Sesion</button>
+        <div className="d-flex gap-3 align-items-center">
+          <InvitacionesContainer invitaciones={invitaciones} cargarListas={cargarListas}/>
+          <button className="btn btn-danger" onClick={handleLogout}><span class="btn-close"></span></button>
         </div>
       </div>
       <hr />
