@@ -1,13 +1,17 @@
-import { Button, Modal } from 'react-bootstrap'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { InviteModal } from '../modals/InviteModal';
+import { useAuth } from '../context/authContext';
+import { useStore } from '../context/storeContext';
 
 export const MenuList = ({ item }) => {
     const [show, setShow] = useState(false);
-
+    const {user} = useAuth()
+    const {eliminarLista} = useStore()
     const handleShow = () => setShow(true);
     const navigate = useNavigate()
+
+
 
     // console.log(item)
     return (
@@ -20,9 +24,13 @@ export const MenuList = ({ item }) => {
                     <i className="fa-regular fa-envelope"></i>
                 </button>
                 <span className="badge bg-primary rounded-pill">{item.items.length} </span>
+                {
+                    user.email == item.author &&
+                    <button className='btn-close' onClick={() => eliminarLista(item.uid)}></button>
+                }
             </div>
 
-            <InviteModal setShow={setShow} show={show} idList={item.uid} />
+            <InviteModal setShow={setShow} show={show} item={item} />
         </div>
     )
 }

@@ -4,35 +4,42 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/authContext';
 import emailjs from 'emailjs-com';
+import { AlertSuccess } from '../login/Alert';
 
-export const InviteModal = ({ setShow, show, idList }) => {
-    const handleClose = () => setShow(false);
+export const InviteModal = ({ setShow, show, item }) => {
+    const handleClose = () => { setShow(false); setAlert(false) }
 
-    const [send, setSend] = useState(false)
     const [message, setMessage] = useState({ to: '' })
     const { user } = useAuth()
+    const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState(false)
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (message.to == '') return false
-
+        setAlert(false)
+        setLoading(true)
         const collectionRef = collection(db, "invitaciones")
         const docRef = doc(collectionRef)
-        const createList = await setDoc(docRef, {
+        await setDoc(docRef, {
             to: message.to,
-            list: idList,
-            from: user.email
+            list: item.uid,
+            from: user.email,
+            name: item.name
         });
 
-        
+
         emailjs.send("service_owifnnb", "template_l8veqwn", {
-            from: message.to,
-            to: user.email,
-            list: idList,
+            to: message.to,
+            from: user.email,
+            name: item.name
         }, import.meta.env.VITE_MAILKEY)
             .then(resp => {
                 console.log(resp)
-                // setSend(true)
                 setMessage({ to: '' })
+                setLoading(false)
+                setAlert(true)
+
             })
             .catch(err => console.log(err))
     }
@@ -46,11 +53,20 @@ export const InviteModal = ({ setShow, show, idList }) => {
             <Modal.Body>
 
                 <form onSubmit={handleSubmit}>
-                    Invita a un amigo a participar en esta lista
-                    <input type="email" name="email" id="emailMessage" onChange={(e) =>  setMessage({ to: e.target.value })} className='form-control' placeholder='email@example.com' value={message.to} />
+                    Invita a alguien a participar en esta lista
+                    <input type="email" name="email" id="emailMessage" onChange={(e) => setMessage({ to: e.target.value })} className='form-control mt-2' placeholder='email@example.com' value={message.to} />
+                    {alert && <AlertSuccess error={"Invitacion enviada exitosamente"} />}
                     <div className='d-flex gap-2 justify-content-end mt-3'>
-                        <button className='btn btn-secondary' onClick={handleClose}>Cancelar</button>
-                        <input className='btn btn-primary' type="submit" value="Invitar" />
+                        {
+                            !loading
+                                ?
+                                <input className='btn btn-primary' type="submit" value="Invitar" />
+                                :
+                                <button className="btn btn-primary" type="button" disabled>
+                                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Enviando...
+                                </button>
+                        }
                     </div>
                 </form>
             </Modal.Body>
