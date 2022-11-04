@@ -6,6 +6,7 @@ import { Register } from './login/Register'
 import { AuthProvider } from './context/authContext'
 import { ProtectedRoute } from './login/ProtecterRoutes'
 import { List } from './home/List'
+import { StoreProvider } from './context/storeContext'
 
 const App = () => {
     return (
@@ -13,10 +14,18 @@ const App = () => {
             <AuthProvider>
                 <Routes>
                     <Route path='/' element={
-                        <ProtectedRoute><Home /></ProtectedRoute>
+                        <ProtectedRoute>
+                            <StoreProvider>
+                                <Home />
+                            </StoreProvider>
+                        </ProtectedRoute>
                     } />
                     <Route path='/list/:listId' element={
-                        <ProtectedRoute><List /></ProtectedRoute>
+                        <ProtectedRoute>
+                            <StoreProvider>
+                                <List />
+                            </StoreProvider>
+                        </ProtectedRoute>
                     } />
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
