@@ -19,4 +19,4 @@ Aplicación que permite compartir listas de tareas con tus amigos, familia, trab
 
 ### DEMO APLICACION
 
-https://list-app-lilac.vercel.app/login
+https://list-app-lilac.vercel.app
