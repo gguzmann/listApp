@@ -18,7 +18,6 @@ export const Home = () => {
   // CARGAR LISTA
   useEffect(() => {
     console.log('render')
-    console.log(send)
     cargarListas()
     cargarInvitaciones()
   }, [send])
@@ -50,7 +49,7 @@ export const Home = () => {
         users: [user.email],
         author: user.email
       });
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
 
       cargarListas()
     } catch (e) {

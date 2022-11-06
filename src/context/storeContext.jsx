@@ -29,7 +29,7 @@ export function StoreProvider({ children }) {
             let obj = { ...x.data(), id: x.id }
             invitacionesList.push(obj)
         })
-        console.log(invitaciones.length)
+        // console.log(invitaciones.length)
         setInvitaciones(invitacionesList)
     }
 

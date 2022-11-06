@@ -31,7 +31,7 @@ export const List = () => {
         }
         setError(null)
         setLoading(true)
-        console.log('add item:', newItem.value)
+        // console.log('add item:', newItem.value)
         const docRef = doc(db, "listas", listId)
 
         let obj = {
