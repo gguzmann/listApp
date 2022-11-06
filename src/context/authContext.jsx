@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
 
     const navigate = useNavigate()
 
+    const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
 
     const signup = async (email, password) => {
@@ -23,7 +24,7 @@ export function AuthProvider({ children }) {
 
     const signin = async (email, password) => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
-        console.log(userCredential)
+        // console.log(userCredential)
     }
 
     const loginGoogle = async () => {
@@ -36,12 +37,13 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
                 setUser(currentUser)
+                setLoading(false)
         })
     }, [])
     
 
     return (
-        <authContext.Provider value={{ signup, signin, user, logout, loginGoogle }}>
+        <authContext.Provider value={{ signup, signin, user, logout, loginGoogle, loading }}>
             {children}
         </authContext.Provider>
     )

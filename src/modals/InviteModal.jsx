@@ -35,7 +35,7 @@ export const InviteModal = ({ setShow, show, item }) => {
             name: item.name
         }, import.meta.env.VITE_MAILKEY)
             .then(resp => {
-                console.log(resp)
+                // console.log(resp)
                 setMessage({ to: '' })
                 setLoading(false)
                 setAlert(true)
